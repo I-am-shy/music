@@ -16,7 +16,10 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions:{
-      scss:``
+      scss:{
+        additionalData: '@import "@/style/main.scss";'
+      }
     }
-  }
+  },
+  base:'/music/'
 })

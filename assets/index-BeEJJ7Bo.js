@@ -1,0 +1,1 @@
+import{_ as e,F as t,E as o}from"./index-BFq4QvCb.js";const s={class:"about"},a={__name:"index",setup(_){return(c,n)=>(o(),t("div",s," 关于 location.href.split('#')[0] "))}},p=e(a,[["__scopeId","data-v-57925a73"]]);export{p as default};

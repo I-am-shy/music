@@ -1,1 +1,0 @@
-import{a as e}from"./request-CXhSxnMM.js";const s=t=>e({url:"/dg_qqmusic.php",method:"get",params:{gm:t}}),a=(t,r)=>e({url:"/dg_qqmusic.php",method:"get",params:{n:t,gm:r}}),n=(t,r)=>e({url:"/dg_qqmusic_SQ.php",method:"get",params:{n:t,msg:r}}),o=t=>e({url:"/dg_geci.php",method:"get",params:{msg:t,n:1,type:2}});export{a,n as b,o as c,s as g};

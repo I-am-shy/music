@@ -1,2 +1,19 @@
+
+.bgColor-green{
+  background: linear-gradient(135deg, rgb(190, 255, 190)30%, rgb(110, 255, 150), rgb(110, 255, 190));
+}
+.bgColor-default{
+  background: linear-gradient(135deg, rgb(255,255,255) , rgb(200, 255, 255),rgb(255, 255, 255));
+}
+.bgColor-dark{
+  background: linear-gradient(135deg,rgb(140, 140, 140)20%,rgb(182, 182, 182)  ,rgb(140, 140, 140)) ;
+}
+
+$text : var(--text,#3a3a3a);
 // 文字颜色
-$text:#3a3a3a;
+.text-default{
+  color: $text; 
+  // color:rgb(230, 230, 230);
+  // document.body.style.setProperty('--text','rgb(230, 230, 230)')
+}
+

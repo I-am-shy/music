@@ -6,7 +6,8 @@ export default axios.create({
   params:{
     num : 60,
     type : "json"
-  }
+  },
+  timeout:5000,
 })
 
 //图片和评论
@@ -15,5 +16,7 @@ export const re = axios.create({
   params:{
     type:'json',
     return:'json'
-  }
+  },
+  timeout:5000,
 })
+

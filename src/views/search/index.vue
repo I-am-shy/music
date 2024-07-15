@@ -2,11 +2,14 @@
 import { ref, reactive, onMounted } from 'vue';
 import { getSongListAPI, getSongAPI } from "@/api/music"
 import { useSongStore, useAudio } from '@/stores/song'
+import { useMySongStore } from '@/stores/my';
 import { useRouter } from 'vue-router';
 
 const songStore = useSongStore();
+const mySongStore = useMySongStore();
 const Audio = useAudio();
 const router = useRouter();
+const active = ref(false);// 消息条初始不可见
 
 const getSongList = async (name) => {
   const res = await getSongListAPI(name);
@@ -29,24 +32,35 @@ const add = async (id) => {
   songStore.addNext(res.data.data);//将歌曲添加到列表
 }
 
+const save = async () => {
+  const res = await getSongAPI(songStore.song.id, songStore.song.searchName);
+  mySongStore.addMySong(res.data.data);
+  // console.log(res.data);
+  active.value = true;
+}
+
 onMounted(() => {
   if (songStore.song.searchName !== '') {
     getSongList(songStore.song.searchName);
   }
 })
+
 </script>
 
 <template>
   <div class="songList">
-    <v-card class="songItem" v-for="item in songStore.songList" :key="item.n" :title="item.song_title"
+    <v-card class="songItem  text-default" v-for="item in songStore.songList" :key="item.n" :title="item.song_title"
       :text="item.song_singer"  @click="selectSong(item.n)">
-      <v-btn variant="text" icon="" position="absolute" class="item" @click.stop="">
-        <v-btn icon="mdi-cards-heart-outline"></v-btn>
+      <v-btn variant="text" icon="" position="absolute" class="item" @click.stop="save">
+        <v-btn icon="mdi-cards-heart-outline" class=" text-default" style="background: transparent;"></v-btn>
       </v-btn>
       <v-btn variant="text" icon="" position="absolute" class="item" @click.stop="add(item.n)">
-        <v-btn icon="mdi-plus"></v-btn>
+        <v-btn icon="mdi-plus" class=" text-default" style="background: transparent;"></v-btn>
       </v-btn>
     </v-card>
+    <v-snackbar v-model="active" :timeout="2000"  color="rgba(196, 255, 201, 0.5)"  width="200px" location="top right">
+      <span color="#3a3a3a">已添加到我的歌单</span>
+    </v-snackbar>
   </div>
 </template>
 
@@ -63,20 +77,20 @@ onMounted(() => {
   .songItem {
     display: flex;
     flex-direction: column;
-
+    background: transparent;
     &::after {
       content: '';
       display: inline-block;
       position: absolute;
       top: calc(100% - 8px);
       height: 4px;
-      width: 150px;
+      width: 120px;
       background: rgb(129, 129, 129);
       transition: 0.5s;
     }
 
     &:hover::after {
-      background: rgb(45, 45, 45);
+      background: $text;
       width: 100%;
     }
     &:hover{
@@ -88,12 +102,14 @@ onMounted(() => {
       right: 70px;
       z-index: 1000;
       font-size: 1.2em;
-
+      background: transparent;
       ~.item {
         right: 5px;
+        background: transparent;
       }
     }
   }
 
 }
+
 </style>

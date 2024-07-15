@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style lang="scss">
-// 清除滑块
+// 清除全局滑块
 ::-webkit-scrollbar {
   width: 0 !important;
 }

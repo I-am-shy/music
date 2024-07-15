@@ -28,7 +28,7 @@ import top from "./components/top.vue"
     position: absolute;
     width: 100%;
     height: 1px;
-    box-shadow: 0 2px 3px rgb(0, 0, 0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     bottom: 0;
     z-index: 10;
     border-radius: 10px;

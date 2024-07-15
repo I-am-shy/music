@@ -33,7 +33,17 @@ const router = createRouter({
               path: '/player',
               name: 'player',
               component: ()=>import('@/views/player/index.vue')
-            }
+            },
+            {
+              path:'/setting',
+              name:'setting',
+              component:()=>import('@/views/setting/index.vue')
+            },
+            {
+              path:'/about',
+              name:'about',
+              component:()=>import('@/views/about/index.vue')
+            },
           ]
         }
       ]

@@ -105,7 +105,7 @@ onBeforeUpdate(() => {
                 olrc.classList.remove('active');
               }
             })
-            console.log(item.c);
+            // console.log(item.c);
           }
           else if (parseInt(Audio.audio.currentTime) >= timeToDecimal(arr[index].t) && parseInt(Audio.audio.currentTime) < timeToDecimal(arr[index + 1].t)) {
             let nlrc = body.value.children[index];
@@ -126,18 +126,18 @@ onBeforeUpdate(() => {
       })
     }
     Audio.currentTime = parseInt(Audio.audio.currentTime);
-    if(Audio.currentTime == parseInt( Audio.audio.duration)){
-      songStore.playNext();
-    }
     // console.log(Audio.currentTime)
+  }
+  Audio.audio.onended = () => {//播放完毕
+    songStore.playNext();
   }
 })
 onUnmounted(()=>{
   Audio.audio.ontimeupdate = ()=>{//组件销毁后重置播放时的事件
     Audio.currentTime = parseInt(Audio.audio.currentTime);
-    if(Audio.currentTime == parseInt( Audio.audio.duration)){
-      songStore.playNext();
-    }
+  }
+  Audio.audio.onended = () => {//播放完毕
+    songStore.playNext();
   }
 })
 

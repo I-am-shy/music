@@ -2,14 +2,22 @@
 import { ref, reactive, onMounted } from 'vue';
 import { getSongListAPI } from "@/api/music"
 import { useSongStore } from '@/stores/song'
+import { useImgStore } from '@/stores/img';
+import { useMyStore } from '@/stores/my';
 import { useRouter } from 'vue-router';
+import { useThemeStore } from '@/stores/theme';
 
-const msg = ref("");
+
 const songStore = useSongStore();
+const imgStore = useImgStore();
+const myStore = useMyStore();
+const themeStore = useThemeStore();
 const router = useRouter();
+const msg = ref('');
 
 onMounted(() => {
   msg.value = songStore.song.searchName;
+  myStore.getImage();
 })
 
 const getSongList = async (name) => {
@@ -27,24 +35,37 @@ const getSongList = async (name) => {
   <div class="content">
     <div class="search">
       <div class="input">
-        <v-text-field label="输入歌曲或歌手名称" variant="underlined" v-model="msg"></v-text-field>
+        <v-text-field label="输入歌曲或歌手名称" variant="underlined" v-model="msg" @keydown.enter="getSongList(songStore.song.searchName)"></v-text-field>
       </div>
       <div class="btn">
-        <v-btn variant="text" size="large"   @click="getSongList(msg)">
+        <v-btn variant="text" size="large" @click="getSongList(msg)">
           <v-icon icon="mdi-magnify" size="large"></v-icon>
           <span>搜索</span>
         </v-btn>
       </div>
     </div>
     <div class="user">
-      <div class="img">
-        <img src="" alt="">
-      </div>
+      <v-btn @click="themeStore.toggleTheme()" style="background: transparent" class="text-default" elevation="1" icon="mdi-theme-light-dark"></v-btn>
+
+      <v-menu open-on-hover>
+        <template v-slot:activator="{ props }">
+          <router-link to="/user">
+            <v-avatar size="50" color="rgb(40, 255, 200)" style="margin: 10px" v-bind="props">
+            <v-img :src="myStore.myInfo.imgUrl"></v-img>
+          </v-avatar>
+          </router-link>
+        </template>
+        <v-list style="opacity: 0.8;">
+          
+          <v-list-item @click="$router.push('/setting')">修改信息</v-list-item>
+          <v-list-item @click="imgStore.imgShow=true">查看图集</v-list-item>
+        </v-list>
+      </v-menu>
+
       <div class="name">
-        <span>用户</span>
+        <span>{{ myStore.myInfo.name }}</span>
       </div>
     </div>
-
   </div>
 
 </template>
@@ -56,30 +77,20 @@ const getSongList = async (name) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .user{
+  backdrop-filter: blur(10px);
+
+  .user {
     width: 200px;
     height: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 50px;
-    border-radius: 5px;
-  }
-  .img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-image: url("@/assets/Music.png");
-    background-size: cover;
-    img {
-      width: 40px;
-    }
+    margin-right: 10px;
   }
 
   .name {
     font-size: 20px;
-    margin-left: 50px;
+    margin-left: 10px;
     height: 40px;
     line-height: 40px;
   }
@@ -89,11 +100,13 @@ const getSongList = async (name) => {
   width: 500px;
   display: flex;
   justify-content: space-between;
+
   .input {
     margin-left: 50px;
     width: 100%;
     height: 60px;
   }
+
   .btn {
     margin-left: -80px;
     margin-top: 10px;

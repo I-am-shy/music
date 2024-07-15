@@ -3,7 +3,8 @@ import { ref} from 'vue'
 
 export const useImgStore = defineStore('img', () => {
   const imgList = ref([]);
-  
+  const imgShow = ref(true);
+
   const addImg = (img) => {
     // 判断是否已经存在
     const index = imgList.value.findIndex(item => item === img);
@@ -22,6 +23,7 @@ export const useImgStore = defineStore('img', () => {
 
   return{
     imgList,
+    imgShow,
     addImg,
     delImg
   }

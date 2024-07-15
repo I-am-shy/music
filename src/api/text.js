@@ -4,7 +4,10 @@ import {re} from '@/utils/request'
 export const getTextAPI = ()=>{
   return re({
     url:'/wyyrp.php',
-    method:'get'
+    method:'get',
+    params:{
+      _t: new Date().valueOf()
+    }
   })
 }
 
@@ -12,7 +15,10 @@ export const getTextAPI = ()=>{
 export const getImgAPI = ()=>{
   return re({
     url:'/ksxjj.php',
-    method:'get'
+    method:'get',
+    params:{
+      _t: new Date().valueOf()
+    }
   })
 }
 
@@ -20,6 +26,9 @@ export const getImgAPI = ()=>{
 export const getTalkAPI = ()=>{
   return re({
     url:'/pyq.php',
-    method:'get'
+    method:'get',
+    params:{
+      _t: new Date().valueOf()
+    }
   })
 }

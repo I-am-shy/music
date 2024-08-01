@@ -148,7 +148,7 @@ const open = () => {
 
       </div>
       <div class="time">{{ timeToMinute(Audio.currentTime) + '/' + timeToMinute(songTime ? songTime : 0) }}</div>
-      <v-slider :max="songTime" :min="0" :step="1" id="range" width="120%" thumb-size="10" v-model="Audio.currentTime"
+      <v-slider :max="songTime" :min="0" :step="1" id="range" width="100%" thumb-size="10" v-model="Audio.currentTime"
         :color="themeStore.isDark ? 'rgb(230, 230, 230)' : '#3a3a3a'" @end="updateRange"></v-slider>
     </div>
 
@@ -156,10 +156,9 @@ const open = () => {
       <v-btn variant="text" @click="open" size="large">
         <v-icon icon="mdi-playlist-music-outline" size="50px"></v-icon>
       </v-btn>
-
     </div>
 
-    <v-snackbar v-model="active" :timeout="2000" color="rgba(196, 255, 201, 0.5)" width="200px" location="top right">
+    <v-snackbar v-model="active" :timeout="1500" color="rgba(196, 255, 201, 0.5)" width="200px" location="top right">
       <span color="#3a3a3a">已添加到我的歌单</span>
     </v-snackbar>
 
@@ -174,7 +173,7 @@ const open = () => {
 .player {
   display: flex;
   justify-content: start;
-
+  width: 100%;
   .img {
     width: 50px;
     height: 50px;
@@ -196,7 +195,7 @@ const open = () => {
       text-wrap: nowrap;
       overflow: hidden;
       font-size: 0.8em;
-      margin-left: 10px;
+
     }
 
     span:nth-child(1) {
@@ -206,12 +205,10 @@ const open = () => {
   }
 
   .audio {
-    width: 800px;
     height: 60px;
-    margin-left: 10px;
     position: relative;
+    flex:auto;
     .controls {
-      width: 800px;
       height: 30px;
       display: flex;
       justify-content: start;
@@ -227,7 +224,7 @@ const open = () => {
       width: 100px;
       height: 20px;
       top: 10px;
-      right: -100px;
+      right: 20px;
     }
   }
 
@@ -237,8 +234,7 @@ const open = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 300px;
-
+    margin-left: 100px;
     i {
       width: 40px;
       height: 40px;

@@ -5,6 +5,7 @@ import getUrl from '@/utils/url'
 import { onMounted, ref } from 'vue'
 import { useSongStore, useAudio } from '@/stores/song';
 import { useThemeStore } from '@/stores/theme';
+import obPage from '@/plugins/obPage';
 
 const songStore = useSongStore();
 const Audio = useAudio();
@@ -27,6 +28,8 @@ const del = (id) => {
 }
 
 onMounted(()=>{
+  // 监听页面变化
+  obPage()
   // 初始化主题颜色
   if(themeStore.isDark){//暗主题
       document.body.style.setProperty('--text','rgb(230, 230, 230)');
@@ -153,9 +156,8 @@ onMounted(()=>{
 }
 
 .left {
-
-  position: fixed;
-  height: 100%;
+  position: relative;
+  height: 100vh;
   width: 200px;
   &::after {
     content: '';
@@ -174,16 +176,16 @@ onMounted(()=>{
 
 .content {
   position: relative;
-  width: calc(100% - 200px);
-  min-width: 1000px;
-  left: 200px;
+  flex:1;
   height: calc(100vh - 60px);
 }
 
 .bottom {
   position: fixed;
-  top: calc(100% - 60px);
+  top: calc(100vh - 60px);
   height: 60px;
   width: 100%;
+  min-width: 600px;
 }
+
 </style>

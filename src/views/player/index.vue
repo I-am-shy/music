@@ -88,8 +88,8 @@ onBeforeUpdate(()=>{// 歌曲更换时更新歌词
       </div>
     </div>
     <div class="download">
-      <a :href="songStore.playSong.music_url" :download="songStore.playSong.song_name + '.mp3'">普通下载</a>
-      <a :href="downloadUrl" v-if="downloadUrl">高品质下载</a>
+      <a :href="songStore.playSong.music_url" target="_blank">普通下载</a>
+      <a :href="downloadUrl" v-if="downloadUrl" target="_blank">高品质下载</a>
     </div>
     <!-- 全屏按钮 -->
     <v-btn icon="" elevation="0" variant="text" @click.stop="fullScreen"
@@ -107,7 +107,6 @@ onBeforeUpdate(()=>{// 歌曲更换时更新歌词
   display: flex;
   justify-content: space-around;
   align-items: center;
-  min-width: 1200px;
   height: 100%;
   background-color: transparent;
   background-size: cover;
@@ -151,7 +150,7 @@ onBeforeUpdate(()=>{// 歌曲更换时更新歌词
     z-index: 1;
     display: flex;
     align-items: center;
-
+    overflow: hidden;
     .content {
       height: 80%;
     }

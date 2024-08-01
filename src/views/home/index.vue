@@ -6,22 +6,32 @@ import top from "./components/top.vue"
 
 <template>
   <!-- 顶部栏 -->
-  <div class="top">
-    <top></top>
+  <div class="home">
+    <div class="top">
+      <top></top>
+    </div>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
-  <div class="main">
-    <router-view></router-view>
-  </div>
+
 
 </template>
 
 <style scoped lang="scss">
 /* 当 <style> 标签带有 scoped attribute 的时候，它的 CSS 只会影响当前组件的元素 */
+.home{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .top {
-  position: fixed;
-  width: calc(100% - 200px);
+  position: relative;
+  height: 60px;
   border-left: none;
+  width: 100%;
   z-index: 100;
+
   &::after {
     content: '';
     display: inline-block;
@@ -35,8 +45,9 @@ import top from "./components/top.vue"
   }
 }
 
-.main{
-  height: calc(100% - 60px);
-  margin-top: 60px;
+.main {
+  flex: auto;
+  flex-shrink: 0;
+  height: calc(100vh - 120px);
 }
 </style>

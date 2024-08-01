@@ -5,6 +5,7 @@ import { getImgAPI, getTextAPI } from '@/api/text';
 import { getSongAPI, getSongListAPI } from '@/api/music';
 import { useSongStore, useAudio } from '@/stores/song';
 import { useImgStore } from '@/stores/img';
+import { useCardStore } from '@/stores/cardList';
 import scrollX from './components/scrollX.vue';
 import loader from '@/components/loader.vue'
 
@@ -21,12 +22,13 @@ const router = useRouter();
 const songStore = useSongStore();
 const Audio = useAudio();
 const imgStore = useImgStore();
-const pageLoader = ref(false);//判断页面是否加载完成
+const pageLoader = ref(false);//判断页面数据是否加载完成
 const dialog = ref({
   src: '',
   show: false
 })
-const musicCardList = ref([].fill(0))
+const cardStore = useCardStore()
+// const musicCardList = cardStore.musicCardList
 const musicCard = {
   text: '',
   gm: '',
@@ -93,27 +95,20 @@ const playSong = (item) => {
   Audio.playing = true;
 }
 
-
-onMounted(async () => {
-  await getNewMusicCard();
-  await getNewMusicCard();
-  pageLoader.value = true;
-})
-
 const change = async (index) => {
   // 属性置空
-  for (let key in musicCardList.value[index]) {
+  for (let key in cardStore.musicCardList[index]) {
     if (key != 'imgShow' || key != 'songShow' || key != 'show') {
-      musicCardList.value[index][key] = ''
-    }else{
-      musicCardList.value[index][key] = true;
+      cardStore.musicCardList[index][key] = ''
+    } else {
+      cardStore.musicCardList[index][key] = true;
     }
   }
 
   await getText();
   await getImg();
-  musicCardList.value[index] = { ...musicCard }
-  // console.log(musicCardList.value[index])
+  cardStore.musicCardList[index] = { ...musicCard }
+  // console.log(musicCardList[index])
 }
 
 const saveImg = (item) => {
@@ -125,9 +120,21 @@ const saveImg = (item) => {
 const getNewMusicCard = async () => {
   await getText();
   await getImg();
-  musicCardList.value.push({ ...musicCard });
-  console.log(musicCardList.value);
+  cardStore.musicCardList.push({ ...musicCard });
+  // console.log(cardStore.musicCardList);
 }
+
+onMounted(async () => {
+  if (cardStore.musicCardList.length === 0) {
+    await getNewMusicCard();
+    await getNewMusicCard();
+    pageLoader.value = true;
+  }else{
+    pageLoader.value = true;
+  } 
+
+})
+
 </script>
 
 <template>
@@ -142,8 +149,8 @@ const getNewMusicCard = async () => {
 
     <loader v-if="!pageLoader"></loader>
 
-    <scrollX v-else width="1500" height="650" itemH="600" itemW="600" :margin="100" @last="getNewMusicCard"
-      style="margin-top: -10px;" bgColor="transparent" >
+    <scrollX v-else width="1250" height="650" itemH="600" itemW="600" :margin="100" @last="getNewMusicCard"
+      style="margin-top: -10px; flex: 1;" bgColor="transparent">
 
       <!-- <div class="card">
         <v-card :width="!musicCard.show ? 300 : 600" hover :loading="musicCard.imgShow" class="text-default"
@@ -195,14 +202,15 @@ const getNewMusicCard = async () => {
       </div> -->
 
 
-      <div class="card" v-for="item, index in musicCardList" :key="index">
+      <div class="card" v-for="item, index in cardStore.musicCardList" :key="index">
         <v-card :width="!item.show ? 300 : 600" hover :loading="item.imgShow" class="text-default"
           style="display: flex;transition: 0.3s;background: transparent;">
           <div class="left">
             <v-img cover :src="item.img" width="300px" height="500px" @click="saveImg(item)"></v-img>
             <v-card-title>
               <span style="margin-right: 10px; font-size: 16px;">推荐歌曲:</span>
-              <v-btn variant="text" color="blue-lighten-2" @click="getSongList(item.gm)"><span>{{ item.gm}}</span></v-btn>
+              <v-btn variant="text" color="blue-lighten-2" @click="getSongList(item.gm)"><span>{{
+                  item.gm}}</span></v-btn>
             </v-card-title>
             <v-card-actions>
               <v-btn color="blue-lighten-2" text="刷新内容" :loading="item.imgShow" @click="change(index)"></v-btn>
@@ -255,14 +263,13 @@ const getNewMusicCard = async () => {
 <style scoped lang="scss">
 /* 当 <style> 标签带有 scoped attribute 的时候，它的 CSS 只会影响当前组件的元素 */
 .recommend {
-  min-width: 1000px;
+  height: 80%;
   padding-top: 10px;
   padding-left: 10px;
-  height: calc(100% - 60px);
-
 }
 
 .title {
+  width: 150px;
   display: inline-block;
   margin-bottom: 20px;
   border-bottom: 5px solid;

@@ -35,7 +35,7 @@ const getSongList = async (name) => {
   <div class="content">
     <div class="search">
       <div class="input">
-        <v-text-field label="输入歌曲或歌手名称" variant="underlined" v-model="msg" @keydown.enter="getSongList(songStore.song.searchName)"></v-text-field>
+        <v-text-field label="输入歌曲或歌手名称" variant="underlined" v-model="msg" @keydown.enter="getSongList(msg)"></v-text-field>
       </div>
       <div class="btn">
         <v-btn variant="text" size="large" @click="getSongList(msg)">
@@ -78,7 +78,7 @@ const getSongList = async (name) => {
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
-
+  width: 100%;
   .user {
     width: 200px;
     height: 55px;
@@ -90,6 +90,7 @@ const getSongList = async (name) => {
 
   .name {
     font-size: 20px;
+    text-wrap: nowrap;
     margin-left: 10px;
     height: 40px;
     line-height: 40px;

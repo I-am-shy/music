@@ -44,7 +44,7 @@ jobs:
         with:
           enablement: true
       - name: Install dependencies
-        run: npm ci # 或 pnpm install / yarn install / bun install
+        run: npm install # 或 pnpm install / yarn install / bun install
       - name: Build with Vite
         run: npm run build # 或 pnpm build / yarn build / bun run build
       - name: Upload artifact
